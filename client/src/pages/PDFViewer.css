@@ -1,0 +1,17 @@
+.pdfviewer-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.pdf-page {
+  position: relative;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.signature-overlay {
+  position: absolute;
+  width: 100px;
+  height: auto;
+  pointer-events: none;
+}
