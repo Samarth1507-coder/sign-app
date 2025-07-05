@@ -16,3 +16,12 @@ exports.uploadPDF = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getUserDocuments = async (req, res) => {
+  try {
+    const documents = await Document.find({ userId: req.user }).sort({ uploadedAt: -1 });
+    res.status(200).json(documents);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch documents' });
+  }
+};
