@@ -18,7 +18,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
-        <h1>Welcome to DocuSign Clone</h1>
+        <h1>Welcome to Signit</h1>
         <button onClick={handleLogout} className="logout-btn">
           Logout
         </button>

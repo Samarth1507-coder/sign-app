@@ -10,7 +10,7 @@ const ViewSignatures = () => {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await axios.get(`http://localhost:5000/api/signature/${docId}`, {
+      const response = await axios.get(`http://localhost:5000/api/signature/document/${docId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
