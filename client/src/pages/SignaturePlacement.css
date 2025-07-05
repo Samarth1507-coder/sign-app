@@ -1,0 +1,41 @@
+.placement-container {
+  padding: 30px;
+  text-align: center;
+}
+
+.pdf-preview {
+  position: relative;
+  display: inline-block;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+}
+
+.pdf-image {
+  width: 600px;
+}
+
+.signature-image {
+  width: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: move;
+}
+
+input {
+  margin: 8px;
+  padding: 8px;
+  width: 200px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #2271e4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
