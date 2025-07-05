@@ -1,0 +1,38 @@
+.view-signatures-container {
+  padding: 30px;
+  text-align: center;
+}
+
+input {
+  padding: 8px;
+  width: 240px;
+  margin-right: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 9px 16px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.signatures-list {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.signature-card {
+  background-color: #f9f9f9;
+  padding: 14px;
+  width: 300px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: left;
+}
