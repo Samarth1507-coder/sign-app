@@ -1,0 +1,42 @@
+/* src/pages/UploadDocument.css */
+.upload-container {
+  padding: 40px;
+  max-width: 600px;
+  margin: auto;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.upload-container h2 {
+  margin-bottom: 20px;
+}
+
+.upload-container input[type="file"] {
+  margin-bottom: 20px;
+}
+
+.upload-container button {
+  padding: 10px 15px;
+  border: none;
+  background: #007bff;
+  color: white;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.upload-container button:hover {
+  background: #0056b3;
+}
+
+.back-btn {
+  background: #6c757d;
+}
+
+.back-btn:hover {
+  background: #5a6268;
+}

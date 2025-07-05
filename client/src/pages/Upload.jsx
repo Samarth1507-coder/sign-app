@@ -1,53 +1,52 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+// src/pages/UploadDocument.jsx
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import "./Upload.css";
 
-const Upload = () => {
+const UploadDocument = () => {
   const [file, setFile] = useState(null);
-  const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
-  const handleUpload = async (e) => {
-    e.preventDefault();
-
-    if (!file) {
-      setMessage('Please select a file first.');
-      return;
-    }
+  const handleUpload = async () => {
+    if (!file) return alert("Please select a PDF to upload");
 
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
 
     try {
-      const token = localStorage.getItem('token'); // assuming you're saving JWT here
+      const token = localStorage.getItem("token");
 
-      const response = await axios.post('http://localhost:5000/api/docs', formData, {
+      const response = await axios.post("http://localhost:5000/api/docs/upload", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
       });
 
-      setMessage('File uploaded successfully!');
+      alert("File uploaded successfully!");
       console.log(response.data);
-    } catch (error) {
-      console.error(error);
-      setMessage(error.response?.data?.message || 'File upload failed');
+      navigate("/dashboard");
+    } catch (err) {
+      alert("Upload failed");
+      console.error(err);
     }
   };
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>Upload PDF</h2>
-      <form onSubmit={handleUpload}>
-        <input type="file" accept="application/pdf" onChange={handleFileChange} />
-        <button type="submit" style={{ marginLeft: '10px' }}>Upload</button>
-      </form>
-      {message && <p>{message}</p>}
+    <div className="upload-container">
+      <h2>Upload a PDF Document</h2>
+      <input type="file" accept=".pdf" onChange={handleFileChange} />
+      <button onClick={handleUpload}>Upload</button>
+      <button onClick={() => navigate("/dashboard")} className="back-btn">
+        ← Back to Dashboard
+      </button>
     </div>
   );
 };
 
-export default Upload;
+export default UploadDocument;
