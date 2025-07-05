@@ -1,29 +1,67 @@
-const Signature = require('../models/Signature');
+const Signature = require("../models/Signature");
 
-exports.addSignature = async (req, res) => {
+// Add Signature
+const addSignature = async (req, res) => {
   try {
-    const { documentId, coordinates, page } = req.body;
+    const { documentId } = req.body;
+
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
 
     const newSignature = new Signature({
-      documentId,
-      userId: req.user,
-      coordinates,
-      page,
+      signaturePath: req.file.path,       // ✅ Corrected: signaturePath, not filePath
+      document: documentId,               // ✅ Match the schema
+      user: req.user,                     // ✅ Set from auth middleware
     });
 
-    await newSignature.save();
-    res.status(201).json({ message: 'Signature saved successfully' });
+    const saved = await newSignature.save();
+    res.status(201).json(saved);
   } catch (error) {
-    res.status(500).json({ message: 'Error saving signature', error });
+    console.error(error);
+    res.status(500).json({ message: 'Server error while uploading signature' });
   }
 };
 
-exports.getSignatures = async (req, res) => {
+
+// Update Signature Position
+const updatePosition = async (req, res) => {
+  const { x, y, pageNumber } = req.body;
+
   try {
-    const { documentId } = req.params;
-    const signatures = await Signature.find({ documentId });
-    res.status(200).json(signatures);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching signatures', error });
+    const signature = await Signature.findByIdAndUpdate(
+      req.params.id,
+      { x, y, pageNumber },
+      { new: true }
+    );
+
+    if (!signature) {
+      return res.status(404).json({ message: "Signature not found" });
+    }
+
+    res.json(signature);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error while updating position" });
   }
+};
+
+// Get a single signature
+const getSignature = async (req, res) => {
+  try {
+    const signature = await Signature.findById(req.params.id).populate("document").populate("user");
+    if (!signature) {
+      return res.status(404).json({ message: "Signature not found" });
+    }
+    res.json(signature);
+  } catch (err) {
+    res.status(500).json({ message: "Server error while retrieving signature" });
+  }
+};
+
+//  Final Export
+module.exports = {
+  addSignature,
+  updatePosition,
+  getSignature,
 };

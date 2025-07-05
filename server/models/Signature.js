@@ -1,28 +1,34 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const signatureSchema = new mongoose.Schema({
-  documentId: {
+  document: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Document',
+    ref: "Document",
     required: true,
   },
-  userId: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
     required: true,
   },
-  coordinates: {
-    x: Number,
-    y: Number,
+  signaturePath: {
+    type: String,
+    required: true,
   },
-  page: {
+  x: {
     type: Number,
-    required: true,
+    default: 0, // Default if not placed yet
   },
-  timestamp: {
-    type: Date,
-    default: Date.now,
+  y: {
+    type: Number,
+    default: 0,
   },
+  pageNumber: {
+    type: Number,
+    default: 1,
+  },
+}, {
+  timestamps: true,
 });
 
-module.exports = mongoose.model('Signature', signatureSchema);
+module.exports = mongoose.model("Signature", signatureSchema);

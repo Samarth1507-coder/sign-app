@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 const documentRoutes = require('./routes/documentRoutes');
 const signatureRoutes = require('./routes/signatureRoutes');
 require('dotenv').config();
@@ -13,7 +14,8 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/docs', documentRoutes);
-app.use('/api/signatures', signatureRoutes);
+app.use('/api/signature', signatureRoutes);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/', (req, res) => {
   res.send('Server running');
