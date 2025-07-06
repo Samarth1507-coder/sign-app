@@ -1,36 +1,37 @@
-// src/pages/Dashboard.jsx
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import "./Dashboard.css";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./Dashboard.css"; // Create this for styling
 
 const Dashboard = () => {
-  const navigate = useNavigate();
+  const [documents, setDocuments] = useState([]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
-  };
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await axios.get("http://localhost:5000/api/docs", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setDocuments(res.data);
+      } catch (error) {
+        console.error("Error fetching documents:", error);
+      }
+    };
 
-  const handleUploadNavigate = () => {
-    navigate("/upload");
-  };
+    fetchDocuments();
+  }, []);
 
   return (
     <div className="dashboard-container">
-      <div className="dashboard-header">
-        <h1>Welcome to Signit</h1>
-        <button onClick={handleLogout} className="logout-btn">
-          Logout
-        </button>
-      </div>
-
-      <div className="dashboard-actions">
-        <button onClick={handleUploadNavigate}>📄 Upload New Document</button>
-      </div>
-
-      <div className="document-list-placeholder">
-        <h3>Your Documents</h3>
-        <p>(List will be shown here after we complete listing logic)</p>
+      <h2>Your Uploaded Documents</h2>
+      <div className="documents-grid">
+        {documents.map((doc) => (
+          <div key={doc._id} className="document-card">
+            <p><strong>{doc.originalName}</strong></p>
+            <a href={`http://localhost:5000/${doc.filePath}`} target="_blank" rel="noreferrer">📄 View PDF</a>
+            {/* Optional: buttons to go to signature placement */}
+          </div>
+        ))}
       </div>
     </div>
   );

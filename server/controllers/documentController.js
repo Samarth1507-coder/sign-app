@@ -1,6 +1,16 @@
-const Document = require('../models/Document');
+const Document = require("../models/Document");
 
-exports.uploadPDF = async (req, res) => {
+const getAllDocuments = async (req, res) => {
+  try {
+    const documents = await Document.find({ userId: req.user }).sort({ createdAt: -1 });
+    res.json(documents);
+  } catch (err) {
+    console.error("Error fetching documents:", err);
+    res.status(500).json({ message: "Server error while fetching documents" });
+  }
+};
+
+ const uploadPDF = async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
 
@@ -17,11 +27,7 @@ exports.uploadPDF = async (req, res) => {
   }
 };
 
-exports.getUserDocuments = async (req, res) => {
-  try {
-    const documents = await Document.find({ userId: req.user }).sort({ uploadedAt: -1 });
-    res.status(200).json(documents);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch documents' });
-  }
+module.exports = {
+getAllDocuments,
+uploadPDF
 };
